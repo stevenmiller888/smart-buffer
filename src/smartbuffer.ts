@@ -1,6 +1,11 @@
 import {
-  ERRORS, checkOffsetValue, checkLengthValue, checkTargetOffset,
-  checkEncoding, isFiniteInteger, bigIntAndBufferInt64Check
+  ERRORS,
+  checkOffsetValue,
+  checkLengthValue,
+  checkTargetOffset,
+  checkEncoding,
+  isFiniteInteger,
+  bigIntAndBufferInt64Check
 } from './utils';
 
 /**
@@ -155,6 +160,26 @@ class SmartBuffer {
   }
 
   /**
+   * Reads an Int24BE value from the current read position or an optionally provided offset.
+   *
+   * @param offset { Number } The offset to read data from (optional)
+   * @return { Number }
+   */
+  readInt24BE(offset?: number): number {
+    return this._readNumberValue(Buffer.prototype.readIntBE, 3, offset);
+  }
+
+  /**
+   * Reads an Int24LE value from the current read position or an optionally provided offset.
+   *
+   * @param offset { Number } The offset to read data from (optional)
+   * @return { Number }
+   */
+  readInt24LE(offset?: number): number {
+    return this._readNumberValue(Buffer.prototype.readIntLE, 3, offset);
+  }
+
+  /**
    * Reads an Int32BE value from the current read position or an optionally provided offset.
    *
    * @param offset { Number } The offset to read data from (optional)
@@ -267,6 +292,54 @@ class SmartBuffer {
    */
   insertInt16LE(value: number, offset: number): SmartBuffer {
     return this._insertNumberValue(Buffer.prototype.writeInt16LE, 2, value, offset);
+  }
+
+  /**
+   * Writes an Int24BE value to the current write position (or at optional offset).
+   *
+   * @param value { Number } The value to write.
+   * @param offset { Number } The offset to write the value at.
+   *
+   * @return this
+   */
+  writeInt24BE(value: number, offset?: number): SmartBuffer {
+    return this._writeNumberValue(Buffer.prototype.writeIntBE, 3, value, offset);
+  }
+
+  /**
+   * Inserts an Int24BE value at the given offset value.
+   *
+   * @param value { Number } The value to insert.
+   * @param offset { Number } The offset to insert the value at.
+   *
+   * @return this
+   */
+  insertInt24BE(value: number, offset: number): SmartBuffer {
+    return this._insertNumberValue(Buffer.prototype.writeIntBE, 3, value, offset);
+  }
+
+  /**
+   * Writes an Int24LE value to the current write position (or at optional offset).
+   *
+   * @param value { Number } The value to write.
+   * @param offset { Number } The offset to write the value at.
+   *
+   * @return this
+   */
+  writeInt24LE(value: number, offset?: number): SmartBuffer {
+    return this._writeNumberValue(Buffer.prototype.writeIntLE, 3, value, offset);
+  }
+
+  /**
+   * Inserts an Int24LE value at the given offset value.
+   *
+   * @param value { Number } The value to insert.
+   * @param offset { Number } The offset to insert the value at.
+   *
+   * @return this
+   */
+  insertInt24LE(value: number, offset: number): SmartBuffer {
+    return this._insertNumberValue(Buffer.prototype.writeIntLE, 3, value, offset);
   }
 
   /**
@@ -402,6 +475,26 @@ class SmartBuffer {
   }
 
   /**
+   * Reads an UInt24BE value from the current read position or an optionally provided offset.
+   *
+   * @param offset { Number } The offset to read data from (optional)
+   * @return { Number }
+   */
+  readUInt24BE(offset?: number): number {
+    return this._readNumberValue(Buffer.prototype.readUIntBE, 3, offset);
+  }
+
+  /**
+   * Reads an UInt24LE value from the current read position or an optionally provided offset.
+   *
+   * @param offset { Number } The offset to read data from (optional)
+   * @return { Number }
+   */
+  readUInt24LE(offset?: number): number {
+    return this._readNumberValue(Buffer.prototype.readUIntLE, 3, offset);
+  }
+
+  /**
    * Reads an UInt32BE value from the current read position or an optionally provided offset.
    *
    * @param offset { Number } The offset to read data from (optional)
@@ -513,6 +606,54 @@ class SmartBuffer {
    */
   insertUInt16LE(value: number, offset: number): SmartBuffer {
     return this._insertNumberValue(Buffer.prototype.writeUInt16LE, 2, value, offset);
+  }
+
+  /**
+   * Writes an UInt24BE value to the current write position (or at optional offset).
+   *
+   * @param value { Number } The value to write.
+   * @param offset { Number } The offset to write the value at.
+   *
+   * @return this
+   */
+  writeUInt24BE(value: number, offset?: number): SmartBuffer {
+    return this._writeNumberValue(Buffer.prototype.writeUIntBE, 3, value, offset);
+  }
+
+  /**
+   * Inserts an UInt24BE value at the given offset value.
+   *
+   * @param value { Number } The value to insert.
+   * @param offset { Number } The offset to insert the value at.
+   *
+   * @return this
+   */
+  insertUInt24BE(value: number, offset: number): SmartBuffer {
+    return this._insertNumberValue(Buffer.prototype.writeUIntBE, 3, value, offset);
+  }
+
+  /**
+   * Writes an UInt24LE value to the current write position (or at optional offset).
+   *
+   * @param value { Number } The value to write.
+   * @param offset { Number } The offset to write the value at.
+   *
+   * @return this
+   */
+  writeUInt24LE(value: number, offset?: number): SmartBuffer {
+    return this._writeNumberValue(Buffer.prototype.writeUIntLE, 3, value, offset);
+  }
+
+  /**
+   * Inserts an UInt24LE value at the given offset value.
+   *
+   * @param value { Number } The value to insert.
+   * @param offset { Number } The offset to insert the value at.
+   *
+   * @return this
+   */
+  insertUInt24LE(value: number, offset: number): SmartBuffer {
+    return this._insertNumberValue(Buffer.prototype.writeUIntLE, 3, value, offset);
   }
 
   /**
@@ -1319,11 +1460,11 @@ class SmartBuffer {
    *
    * @returns { T } the number value
    */
-  private _readNumberValue<T>(func: (offset: number) => T, byteSize: number, offset?: number): T {
+  private _readNumberValue<T>(func: (offset: number, byteLength?: number) => T, byteSize: number, offset?: number): T {
     this.ensureReadable(byteSize, offset);
 
     // Call Buffer.readXXXX();
-    const value = func.call(this._buff, typeof offset === 'number' ? offset : this._readOffset);
+    const value = func.call(this._buff, typeof offset === 'number' ? offset : this._readOffset, byteSize);
 
     // Adjust internal read offset if an optional read offset was not provided.
     if (typeof offset === 'undefined') {
@@ -1346,7 +1487,7 @@ class SmartBuffer {
    * @returns SmartBuffer this buffer
    */
   private _insertNumberValue<T extends number | bigint>(
-    func: (value: T, offset?: number) => number,
+    func: (value: T, offset?: number, byteLength?: number) => number,
     byteSize: number,
     value: T,
     offset: number
@@ -1358,7 +1499,7 @@ class SmartBuffer {
     this.ensureInsertable(byteSize, offset);
 
     // Call buffer.writeXXXX();
-    func.call(this._buff, value, offset);
+    func.call(this._buff, value, offset, byteSize);
 
     // Adjusts internally managed write offset.
     this._writeOffset += byteSize;
@@ -1378,7 +1519,7 @@ class SmartBuffer {
    * @returns SmartBuffer this buffer
    */
   private _writeNumberValue<T extends number | bigint>(
-    func: (value: T, offset?: number) => number,
+    func: (value: T, offset?: number, byteLength?: number) => number,
     byteSize: number,
     value: T,
     offset?: number
@@ -1399,7 +1540,7 @@ class SmartBuffer {
     // Ensure there is enough internal Buffer capacity. (raw offset is passed)
     this._ensureWriteable(byteSize, offsetVal);
 
-    func.call(this._buff, value, offsetVal);
+    func.call(this._buff, value, offsetVal, byteSize);
 
     // If an offset was given, check to see if we wrote beyond the current writeOffset.
     if (typeof offset === 'number') {

@@ -303,7 +303,9 @@ class SmartBuffer {
    * @return this
    */
   writeInt24BE(value: number, offset?: number): SmartBuffer {
-    return this._writeNumberValue(Buffer.prototype.writeIntBE, 3, value, offset);
+    this._writeNumberValue(Buffer.prototype.writeInt16BE, 2, value >> 8, offset);
+    this._writeNumberValue(Buffer.prototype.writeInt8, 1, value & 255, offset + 2);
+    return this;
   }
 
   /**
@@ -315,7 +317,9 @@ class SmartBuffer {
    * @return this
    */
   insertInt24BE(value: number, offset: number): SmartBuffer {
-    return this._insertNumberValue(Buffer.prototype.writeIntBE, 3, value, offset);
+    this._insertNumberValue(Buffer.prototype.writeInt16BE, 2, value >> 8, offset);
+    this._insertNumberValue(Buffer.prototype.writeInt8, 1, value & 255, offset + 2);
+    return this;
   }
 
   /**
@@ -327,7 +331,9 @@ class SmartBuffer {
    * @return this
    */
   writeInt24LE(value: number, offset?: number): SmartBuffer {
-    return this._writeNumberValue(Buffer.prototype.writeIntLE, 3, value, offset);
+    this._writeNumberValue(Buffer.prototype.writeInt16LE, 2, value >> 8, offset);
+    this._writeNumberValue(Buffer.prototype.writeInt8, 1, value & 255, offset && offset + 2);
+    return this;
   }
 
   /**
@@ -339,7 +345,9 @@ class SmartBuffer {
    * @return this
    */
   insertInt24LE(value: number, offset: number): SmartBuffer {
-    return this._insertNumberValue(Buffer.prototype.writeIntLE, 3, value, offset);
+    this._insertNumberValue(Buffer.prototype.writeInt16LE, 2, value >> 8, offset);
+    this._insertNumberValue(Buffer.prototype.writeInt8, 1, value & 255, offset && offset + 2);
+    return this;
   }
 
   /**
@@ -617,7 +625,9 @@ class SmartBuffer {
    * @return this
    */
   writeUInt24BE(value: number, offset?: number): SmartBuffer {
-    return this._writeNumberValue(Buffer.prototype.writeUIntBE, 3, value, offset);
+    this._writeNumberValue(Buffer.prototype.writeUInt16BE, 2, value >> 8, offset);
+    this._writeNumberValue(Buffer.prototype.writeUInt8, 1, value & 255, offset && offset + 2);
+    return this;
   }
 
   /**
@@ -629,7 +639,9 @@ class SmartBuffer {
    * @return this
    */
   insertUInt24BE(value: number, offset: number): SmartBuffer {
-    return this._insertNumberValue(Buffer.prototype.writeUIntBE, 3, value, offset);
+    this._insertNumberValue(Buffer.prototype.writeUInt16BE, 2, value >> 8, offset);
+    this._insertNumberValue(Buffer.prototype.writeUInt8, 1, value & 255, offset && offset + 2);
+    return this;
   }
 
   /**
@@ -641,7 +653,9 @@ class SmartBuffer {
    * @return this
    */
   writeUInt24LE(value: number, offset?: number): SmartBuffer {
-    return this._writeNumberValue(Buffer.prototype.writeUIntLE, 3, value, offset);
+    this._writeNumberValue(Buffer.prototype.writeUInt16LE, 2, value >> 8, offset);
+    this._writeNumberValue(Buffer.prototype.writeUInt8, 1, value & 255, offset && offset + 2);
+    return this;
   }
 
   /**
@@ -653,7 +667,9 @@ class SmartBuffer {
    * @return this
    */
   insertUInt24LE(value: number, offset: number): SmartBuffer {
-    return this._insertNumberValue(Buffer.prototype.writeUIntLE, 3, value, offset);
+    this._insertNumberValue(Buffer.prototype.writeUInt16LE, 2, value >> 8, offset);
+    this._insertNumberValue(Buffer.prototype.writeUInt8, 1, value & 255, offset && offset + 2);
+    return this;
   }
 
   /**

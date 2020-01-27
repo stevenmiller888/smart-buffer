@@ -258,7 +258,9 @@ class SmartBuffer {
      * @return this
      */
     writeInt24BE(value, offset) {
-        return this._writeNumberValue(Buffer.prototype.writeIntBE, 3, value, offset);
+        this._writeNumberValue(Buffer.prototype.writeInt16BE, 2, value >> 8, offset);
+        this._writeNumberValue(Buffer.prototype.writeInt8, 1, value & 255, offset + 2);
+        return this;
     }
     /**
      * Inserts an Int24BE value at the given offset value.
@@ -269,7 +271,9 @@ class SmartBuffer {
      * @return this
      */
     insertInt24BE(value, offset) {
-        return this._insertNumberValue(Buffer.prototype.writeIntBE, 3, value, offset);
+        this._insertNumberValue(Buffer.prototype.writeInt16BE, 2, value >> 8, offset);
+        this._insertNumberValue(Buffer.prototype.writeInt8, 1, value & 255, offset + 2);
+        return this;
     }
     /**
      * Writes an Int24LE value to the current write position (or at optional offset).
@@ -280,7 +284,9 @@ class SmartBuffer {
      * @return this
      */
     writeInt24LE(value, offset) {
-        return this._writeNumberValue(Buffer.prototype.writeIntLE, 3, value, offset);
+        this._writeNumberValue(Buffer.prototype.writeInt16LE, 2, value >> 8, offset);
+        this._writeNumberValue(Buffer.prototype.writeInt8, 1, value & 255, offset && offset + 2);
+        return this;
     }
     /**
      * Inserts an Int24LE value at the given offset value.
@@ -291,7 +297,9 @@ class SmartBuffer {
      * @return this
      */
     insertInt24LE(value, offset) {
-        return this._insertNumberValue(Buffer.prototype.writeIntLE, 3, value, offset);
+        this._insertNumberValue(Buffer.prototype.writeInt16LE, 2, value >> 8, offset);
+        this._insertNumberValue(Buffer.prototype.writeInt8, 1, value & 255, offset && offset + 2);
+        return this;
     }
     /**
      * Writes an Int32BE value to the current write position (or at optional offset).
@@ -544,7 +552,9 @@ class SmartBuffer {
      * @return this
      */
     writeUInt24BE(value, offset) {
-        return this._writeNumberValue(Buffer.prototype.writeUIntBE, 3, value, offset);
+        this._writeNumberValue(Buffer.prototype.writeUInt16BE, 2, value >> 8, offset);
+        this._writeNumberValue(Buffer.prototype.writeUInt8, 1, value & 255, offset && offset + 2);
+        return this;
     }
     /**
      * Inserts an UInt24BE value at the given offset value.
@@ -555,7 +565,9 @@ class SmartBuffer {
      * @return this
      */
     insertUInt24BE(value, offset) {
-        return this._insertNumberValue(Buffer.prototype.writeUIntBE, 3, value, offset);
+        this._insertNumberValue(Buffer.prototype.writeUInt16BE, 2, value >> 8, offset);
+        this._insertNumberValue(Buffer.prototype.writeUInt8, 1, value & 255, offset && offset + 2);
+        return this;
     }
     /**
      * Writes an UInt24LE value to the current write position (or at optional offset).
@@ -566,7 +578,9 @@ class SmartBuffer {
      * @return this
      */
     writeUInt24LE(value, offset) {
-        return this._writeNumberValue(Buffer.prototype.writeUIntLE, 3, value, offset);
+        this._writeNumberValue(Buffer.prototype.writeUInt16LE, 2, value >> 8, offset);
+        this._writeNumberValue(Buffer.prototype.writeUInt8, 1, value & 255, offset && offset + 2);
+        return this;
     }
     /**
      * Inserts an UInt24LE value at the given offset value.
@@ -577,7 +591,9 @@ class SmartBuffer {
      * @return this
      */
     insertUInt24LE(value, offset) {
-        return this._insertNumberValue(Buffer.prototype.writeUIntLE, 3, value, offset);
+        this._insertNumberValue(Buffer.prototype.writeUInt16LE, 2, value >> 8, offset);
+        this._insertNumberValue(Buffer.prototype.writeUInt8, 1, value & 255, offset && offset + 2);
+        return this;
     }
     /**
      * Writes an UInt32BE value to the current write position (or at optional offset).
